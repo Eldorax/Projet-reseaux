@@ -1,0 +1,21 @@
+# avec sudo ansible-playbook -c local config.vm1.yml
+---
+- hosts: localhost
+  tasks:
+      # adresse IPv6 avec nmcli (CLI pour NetworkManager)
+      # éventuellement, pour supprimer les connexions en trop, faire
+      # $ nmcli connection del ansible-eth1
+#   - shell: ip -6 route delete default
+   - shell: nmcli connection add ifname eth1 con-name eth1-LAN1-6 type ethernet ip6 fc00:1234:1::26/64
+   - shell: nmcli connection add ifname eth2 con-name eth2-LAN3-6 type ethernet ip6 fc00:1234:2::26/64
+   - shell: sysctl -w net.ipv6.conf.all.forwarding=1
+   - shell: ip -6 route delete default
+     ignore_errors: True
+   - shell: ip -6 route delete default
+     ignore_errors: True
+   - shell: ip -6 route delete default
+     ignore_errors: True
+   - shell: ip -6 route delete default
+     ignore_errors: True
+#   - shell: ip -6 route add fc00:1234:1::/48 dev eth1  #-->LAN2-6
+#   - shell: ip -6 route add fc00:1234:2::/48 dev eth2  #-->LAN1-6

@@ -1,0 +1,16 @@
+# avec sudo ansible-playbook -c local config.vm1.yml
+---
+- hosts: localhost
+  tasks:
+   - shell: ip addr add 172.16.2.1/28 dev tun0
+
+   - shell: sysctl -w net.ipv4.ip_forward=1
+
+   - shell: ip route delete 172.16.2.128/28
+     ignore_errors: True
+   - shell: ip route delete 172.16.2.160/28
+     ignore_errors: True
+   - shell: ip route delete 172.16.2.144/28
+     ignore_errors: True
+   
+   - shell: ip route add 172.16.2.144/28 via 172.16.2.10 dev tun0  #-->LAN4  

@@ -1,0 +1,9 @@
+# avec sudo ansible-playbook -c local config.vm1.yml
+---
+- hosts: localhost
+  tasks:
+   - shell: ip route delete 172.16.2.128/28
+   - shell: ip route delete 172.16.2.160/28
+   - shell: ip route delete 172.16.2.144/28
+
+   - shell: ip route add 172.16.2.144/28 via 172.16.2.186 dev eth2  #-->LAN4

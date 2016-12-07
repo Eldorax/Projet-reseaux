@@ -1,0 +1,14 @@
+# avec sudo ansible-playbook -c local config.vm1.yml
+---
+- hosts: localhost
+  tasks:
+      # adresse IPv6 avec nmcli (CLI pour NetworkManager)
+      # éventuellement, pour supprimer les connexions en trop, faire
+      # $ nmcli connection del ansible-eth1
+#   - shell: ip -6 route delete default
+
+   - shell: ip route delete 172.16.2.128/28
+   - shell: ip route delete 172.16.2.160/28
+   - shell: ip route delete 172.16.2.176/28
+
+   - shell: ip route add 172.16.2.176/28 via 172.16.2.156 dev eth1  #-->LAN4
